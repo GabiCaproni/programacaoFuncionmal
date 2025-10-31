@@ -1,3 +1,53 @@
+-- 1- classificaLista :: [Int] -> String
+--Retorna "Lista vazia", "Lista unitária" ou "Lista longa" conforme o tamanho.
+--Exemplo:
+--classificaLista [] → "Lista vazia"
+
+classificaLista :: [Int] -> String
+classificaLista lista
+    | length lista == 0 = "Lista vazia"
+    | length lista == 1 = "Lista unitária"
+    | otherwise = "Lista longa"
+
+
+--2- media3 :: (Float, Float, Float) -> Float. Retorna a média aritmética de três valores.
+--Exemplo:
+--media3 (4.0, 6.0, 10.0) → 6.666667
+
+media3 :: (Float, Float, Float) -> Float
+media3 (x,y,z) = (x+y+z)/3
+
+--3 - acimaDaMedia :: [(String,Float)] -> [String]. Dada uma lista de alunos e notas, retorna
+--os nomes com nota > média geral.
+--Exemplo:
+--acimaDaMedia [("Ana",8.0),("Beto",5.0),("Clara",7.0)] → ["Ana","Clara"]
+
+aluno :: Int -> (String, Float)
+aluno codigo
+    | codigo == 1 = ("Ana", 8.0)
+    | codigo == 2 = ("Beto", 5.0)
+    | codigo == 3 = ("Clara", 7.0)
+    | codigo == 4 = ("Daniel", 6.5)
+    | codigo == 5 = ("Eduarda", 9.0)
+    | codigo == 6 = ("Felipe", 4.0)
+    | otherwise = ("Aluno não cadastrado", 11.0)
+
+-- Função para criar lista de alunos
+criarListaAlunos :: Int -> [(String, Float)]
+criarListaAlunos nRegistros = [aluno x | x <- [1..nRegistros]]
+
+-- Filtra apenas alunos cadastrados (exclui "Aluno não cadastrado")
+alunosValidos :: Int -> [(String, Float)]
+alunosValidos nRegistros = [(x, y) | (x, y) <- criarListaAlunos nRegistros, y < 11]
+
+-- Calcula a média das notas
+calcularMedia :: Int -> Float
+calcularMedia nRegistros = sum [y | (_, y) <- alunosValidos nRegistros] / fromIntegral (length (alunosValidos nRegistros))
+
+-- Função principal - retorna nomes com nota acima da média
+acimaDaMedia :: Int -> [String]
+acimaDaMedia nRegistros = [x | (x, y) <- alunosValidos nRegistros, y > calcularMedia nRegistros]
+
 --4- diferencas :: [Int] -> [Int]
 --Dada uma lista, retorna as diferenças entre elementos consecutivos.
 --Exemplo:
@@ -56,7 +106,7 @@ pushRight s n
 conta :: [Char] -> Char -> Int
 conta lista a = length [x | x <- lista, x == a]
 
--- 10- seja o cadastro de pessoas dado pela função a seguir:--- 
+--10- Seja o cadastro de pessoas dado pela função a seguir:--
 --pessoa rg--
 -- | rg == 1 = ("João Silva", 12, ’m’)--
 -- | rg == 2 ("Jonas Souza", 51, ’m’)-
@@ -98,5 +148,25 @@ soma :: Int -> Int
 soma nRegistros = sum([y | (_,y,_) <- pessoas nRegistros])
 
 media :: Int -> Float
-media nRegistros =fromIntegral (soma nRegistros) / fromIntegral (nRegistros)
+media nRegistros = fromIntegral(soma nRegistros)/fromIntegral(nRegistros)
+
+--(c) O número de pessoas do sexo masculino.--
+numeroMasculinos :: Int -> Int
+numeroMasculinos nRegistros = length ([z | (_,_,z) <- pessoas nRegistros, z == 'm'])
+
+--(d) O número do registro da pessoa de maior idade--
+maiorIdade :: Int -> Int
+maiorIdade nRegistros = maximum  ([y | (_,y,_) <- pessoas nRegistros])
+
+-- Retorna as tuplas das pessoas com a maior idade (caso haja empate)
+pessoasMaisVelhas :: [(String, Int, Char)]
+pessoasMaisVelhas = [(x, y, z) | (x, y, z) <- pessoas nRegistros, y == maiorIdade]
+
+-- Adiciona o número de RG a cada pessoa (1, 2, 3...)
+listarPessoasComRg :: [(Int, String, Int, Char)]
+listarPessoasComRg = [(rg, x, y, z) | (rg, (x, y, z)) <- zip [1..] pessoas nRegistros]
+
+-- Retorna apenas o RG da(s) pessoa(s) com maior idade
+rgsDasPessoasMaisVelhas :: [Int]
+rgsDasPessoasMaisVelhas = [rg | (rg, x, y, z) <- listarPessoasComRg, y == maiorIdade]
 
