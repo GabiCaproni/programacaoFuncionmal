@@ -148,7 +148,7 @@ soma :: Int -> Int
 soma nRegistros = sum([y | (_,y,_) <- pessoas nRegistros])
 
 media :: Int -> Float
-media nRegistros = fromIntegral(soma nRegistros)/fromIntegral(nRegistros)
+media nRegistros = fromIntegral (soma nRegistros) / fromIntegral (length (pessoas nRegistros))
 
 --(c) O número de pessoas do sexo masculino.--
 numeroMasculinos :: Int -> Int
@@ -159,14 +159,14 @@ maiorIdade :: Int -> Int
 maiorIdade nRegistros = maximum  ([y | (_,y,_) <- pessoas nRegistros])
 
 -- Retorna as tuplas das pessoas com a maior idade (caso haja empate)
-pessoasMaisVelhas :: [(String, Int, Char)]
-pessoasMaisVelhas = [(x, y, z) | (x, y, z) <- pessoas nRegistros, y == maiorIdade]
+pessoasMaisVelhas :: Int -> [(String, Int, Char)]
+pessoasMaisVelhas nRegistros = [(x, y, z) | (x, y, z) <- pessoas nRegistros, y == maiorIdade nRegistros]
 
 -- Adiciona o número de RG a cada pessoa (1, 2, 3...)
-listarPessoasComRg :: [(Int, String, Int, Char)]
-listarPessoasComRg = [(rg, x, y, z) | (rg, (x, y, z)) <- zip [1..] pessoas nRegistros]
+listarPessoasComRg :: Int -> [(Int, String, Int, Char)]
+listarPessoasComRg nRegistros = [(rg, x, y, z) | (rg, (x, y, z)) <- zip [1..] (pessoas nRegistros)]
+
 
 -- Retorna apenas o RG da(s) pessoa(s) com maior idade
-rgsDasPessoasMaisVelhas :: [Int]
-rgsDasPessoasMaisVelhas = [rg | (rg, x, y, z) <- listarPessoasComRg, y == maiorIdade]
-
+rgsDasPessoasMaisVelhas :: Int -> [Int]
+rgsDasPessoasMaisVelhas nRegistros = [rg | (rg, x, y, z) <- listarPessoasComRg nRegistros, y == maiorIdade nRegistros]
