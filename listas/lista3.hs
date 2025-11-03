@@ -82,6 +82,17 @@ quantos lista num = sum [1 | x <- lista, x == num]
 --elementos que estão repetidos.
 --Exemplo:
 --repetidos [1,2,1,3,4,3,1] = [1,3]
+conta :: (Eq a) => a -> [a] -> Int
+conta x lista = length [y | y <- lista, y == x]
+
+removeDuplicados :: (Eq a) => [a] -> [a]
+removeDuplicados [] = []
+removeDuplicados (x:xs)
+    | x `elem` xs = removeDuplicados xs
+    | otherwise   = x : removeDuplicados xs
+
+repetidos :: (Eq a) => [a] -> [a]
+repetidos xs = removeDuplicados [x | x <- xs, conta x xs > 1]
 
 --Defina a função contaQuantosDiferentes que retornam o número de
 --elementos diferentes do inteiro na lista.
