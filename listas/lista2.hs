@@ -114,7 +114,19 @@ inserePos pos elemento lista = take pos lista ++ [elemento] ++ drop pos lista
 --Exemplo:
 --trocaPosicao 123 = 132
 --trocaPosicao :: Int -> Int
---trocaPosicao x =
+trocaPosicao :: Int -> Int
+trocaPosicao x = resto * 100 + u * 10 + d
+  where
+    u = x `mod` 10
+    d = (x `div` 10) `mod` 10
+    resto = x `div` 100
+
+-- 13 -Escreva, em Haskell, a função invertInt::Int->Int que inverta os dígitos de um
+--número inteiro.
+--Exemplo: invertInt 123 = 321.
+invertInt :: Int -> Int
+invertInt x = read (reverse (show x)) :: Int
+
 
 --14- Crie uma função que determine se um número é palíndromo (igual quando invertido).
 --Exemplo:
