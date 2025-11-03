@@ -48,6 +48,12 @@ calcularMedia nRegistros = sum [y | (_, y) <- alunosValidos nRegistros] / fromIn
 acimaDaMedia :: Int -> [String]
 acimaDaMedia nRegistros = [x | (x, y) <- alunosValidos nRegistros, y > calcularMedia nRegistros]
 
+--ou 
+--acimaDaMedia :: [(String, Float)] -> [String]
+--acimaDaMedia lista = [nome | (nome, nota) <- lista, nota > media lista]
+  --where
+    --media lista = sum [n | (_, n) <- lista] / fromIntegral (length lista)
+
 --4- diferencas :: [Int] -> [Int]
 --Dada uma lista, retorna as diferenças entre elementos consecutivos.
 --Exemplo:
@@ -62,26 +68,29 @@ diferencas x = zipWith (-) (tail x) x
 --anyDigit 0 7689 = 7
 --anyDigit 2 7689 = 8
 --anyDigit 9 7689 = -1
+-- Converte um número inteiro em sua representação string
+-- Ex: transformaEmTexto 123 → "123"
 transformaEmTexto :: Int -> String
 transformaEmTexto numero = show numero
 
+-- Converte um caractere numérico em inteiro
+-- Ex: transformaEmNumero '5' → 5
 transformaEmNumero :: Char -> Int
 transformaEmNumero char = read [char] :: Int
 
+-- Pega o caractere na posição específica de um número (contando da esquerda)
+-- Ex: pegarCaractereNaPosicao 1 123 → '2' (posição 1 do "123")
 pegarCaractereNaPosicao :: Int -> Int -> Char
 pegarCaractereNaPosicao posicao numero = last (take (posicao + 1) (transformaEmTexto numero))
 
+-- Pega o dígito numérico na posição específica de um número
+-- Retorna -1 se a posição for inválida
+-- Ex: pegarDigito 1 123 → 2
 pegarDigito :: Int -> Int -> Int
 pegarDigito posicao numero
-    | posicao < 0 || posicao > (length (transformaEmTexto numero) - 1) = -1
-    | otherwise = transformaEmNumero (pegarCaractereNaPosicao posicao numero)
-
--- 6- Fazer a função
-funcao :: Float -> Float 
-funcao x 
-    | x>0 || x==0 = (x+4)/(x+2)
-    | otherwise = 2/x
-
+    | posicao < 0 || posicao > (length (transformaEmTexto numero) - 1) = -1  -- Posição inválida
+    | otherwise = transformaEmNumero (pegarCaractereNaPosicao posicao numero)  -- Conversão do caractere
+    
 --7- Faça uma solução para inverter os elementos de uma lista de Inteiros.
 --Exemplo:
 --inverte [1,2,3,4,5,6,150] = [150,6,5,4,3,2,1]
